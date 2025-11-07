@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ec-customer-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ec_site_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ec-network
+
+  customer-service:
+    build: .
+    container_name: ec-customer-service
+    ports:
+      - "8089:8089"
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-ec_site_db}
+      DATABASE_USERNAME: ${POSTGRES_USER:-postgres}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    depends_on:
+      - postgres
+    networks:
+      - ec-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ec-network:
+    driver: bridge
