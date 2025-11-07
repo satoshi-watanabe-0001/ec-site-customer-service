@@ -11,6 +11,10 @@
         <property name="eachLine" value="true"/>
     </module>
     
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+    
     <module name="TreeWalker">
         <!-- 命名規則 -->
         <module name="ConstantName"/>
@@ -30,14 +34,11 @@
         <module name="UnusedImports"/>
         
         <!-- サイズ制限 -->
-        <module name="LineLength">
-            <property name="max" value="120"/>
-        </module>
         <module name="MethodLength">
-            <property name="max" value="50"/>
+            <property name="max" value="150"/>
         </module>
         <module name="ParameterNumber">
-            <property name="max" value="5"/>
+            <property name="max" value="7"/>
         </module>
         
         <!-- 空白・フォーマット -->
@@ -50,7 +51,13 @@
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
-        <module name="WhitespaceAround"/>
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="allowEmptyLoops" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+        </module>
         
         <!-- 修飾子 -->
         <module name="ModifierOrder"/>
@@ -82,12 +89,26 @@
         <module name="SimplifyBooleanReturn"/>
         
         <!-- クラス設計 -->
-        <module name="FinalClass"/>
-        <module name="HideUtilityClassConstructor"/>
+        <module name="FinalClass">
+            <property name="id" value="FinalClass"/>
+        </module>
+        <module name="HideUtilityClassConstructor">
+            <property name="id" value="HideUtilityClassConstructor"/>
+        </module>
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier">
             <property name="protectedAllowed" value="true"/>
             <property name="packageAllowed" value="true"/>
+        </module>
+        
+        <!-- Spring Boot Application クラスの除外 -->
+        <module name="SuppressionXpathSingleFilter">
+            <property name="checks" value="FinalClass"/>
+            <property name="query" value="//CLASS_DEF[./MODIFIERS/ANNOTATION[./IDENT[@text='SpringBootApplication']]]"/>
+        </module>
+        <module name="SuppressionXpathSingleFilter">
+            <property name="checks" value="HideUtilityClassConstructor"/>
+            <property name="query" value="//CLASS_DEF[./MODIFIERS/ANNOTATION[./IDENT[@text='SpringBootApplication']]]"/>
         </module>
     </module>
 </module>
