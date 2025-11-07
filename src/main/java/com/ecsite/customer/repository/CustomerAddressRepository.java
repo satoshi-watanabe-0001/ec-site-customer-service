@@ -1,11 +1,11 @@
 package com.ecsite.customer.repository;
 
-import com.ecsite.customer.entity.CustomerAddress;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import com.ecsite.customer.entity.CustomerAddress;
 
 @Repository
-public interface CustomerAddressRepository extends JpaRepository<CustomerAddress, UUID> {
-}
+public interface CustomerAddressRepository extends JpaRepository<CustomerAddress, UUID> {}
