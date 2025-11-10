@@ -69,7 +69,8 @@ jacocoTestReport {
                 '**/config/**',
                 '**/dto/**',
                 '**/entity/**',
-                '**/repository/**'
+                '**/repository/**',
+                '**/mapper/**'
             ])
         }))
     }
@@ -83,7 +84,8 @@ jacocoTestCoverageVerification {
                 '**/config/**',
                 '**/dto/**',
                 '**/entity/**',
-                '**/repository/**'
+                '**/repository/**',
+                '**/mapper/**'
             ])
         }))
     }
