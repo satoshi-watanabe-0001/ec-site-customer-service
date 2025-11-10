@@ -1,11 +1,14 @@
+server:
+  port: 8089
+
 spring:
   application:
-    name: ec-site-customer-service
+    name: customer-service
   
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ec_site_db}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
+    url: jdbc:postgresql://localhost:5432/customer_db
+    username: ${DB_USERNAME:customer_user}
+    password: ${DB_PASSWORD:customer_pass}
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -16,19 +19,34 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-        default_schema: customer_schema
   
   flyway:
     enabled: true
     baseline-on-migrate: true
-    schemas: customer_schema
     locations: classpath:db/migration
 
-server:
-  port: 8089
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:http://localhost:8081}
+          jwk-set-uri: ${JWT_JWK_SET_URI:http://localhost:8081/.well-known/jwks.json}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 logging:
   level:
     com.ecsite.customer: INFO
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
     org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
